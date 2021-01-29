@@ -8,9 +8,9 @@ import com.jasper.HouseAPI.domain.House;
 @Repository
 public interface HouseRepository extends CrudRepository<House, Long> {
 	
-	@Override
-	Iterable<House> findAllById(Iterable<Long> iterable);
-	
 	House findHouseById(Long id);
+	
+	@Override
+	Iterable<House> findAll();
 
 }

@@ -1,6 +1,12 @@
 package com.jasper.HouseAPI.services;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.jasper.HouseAPI.domain.House;
@@ -31,5 +37,23 @@ public class HouseService {
 		}
 		return house;
 	}
+	
+//	public Iterable<House> findAllHouses() {
+//		
+//		return houseRepository.findAll();
+//	}
+	
+	public ResponseEntity<?> findAllHouses() {
+		Map<String, Object> map = new LinkedHashMap<>();
+		Iterable<House> res = houseRepository.findAll();
+		int count = 0;
+		for(House house : res) {
+			count++;
+		}
+		map.put("itemCount", count);
+		map.put("items", res);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
+	
 
 }

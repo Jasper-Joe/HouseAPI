@@ -56,5 +56,15 @@ public class HouseController {
 		House house = houseService.findHouseById(id);
 		return new ResponseEntity<House>(house, HttpStatus.OK);
 	}
+	
+//	@GetMapping("")
+//	public Iterable<House> getAllHouses() {
+//		return houseService.findAllHouses();
+//	}
+	
+	@GetMapping("")
+	public ResponseEntity<?> getAllHouses() {
+		return houseService.findAllHouses();
+	}
 
 }
