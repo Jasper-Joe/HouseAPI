@@ -11,13 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jasper.HouseAPI.domain.House;
+import com.jasper.HouseAPI.exceptions.InvalidInputException;
 import com.jasper.HouseAPI.services.HouseService;
+import com.jasper.HouseAPI.services.ValidationService;
 
 @RestController
 @RequestMapping("/api/houses")
@@ -26,18 +29,32 @@ public class HouseController {
 	@Autowired
 	private HouseService houseService;
 	
+	@Autowired
+	private ValidationService validationService;
+	
 	@PostMapping("")
 	public ResponseEntity<?> createNewHouse(@Valid @RequestBody House house, BindingResult result) {
-		if(result.hasErrors()) {
-			Map<String, String> errorMap = new HashMap<>();
-			for(FieldError error: result.getFieldErrors()) {
-				errorMap.put(error.getField(), error.getDefaultMessage());
-			}
-			
-			return new ResponseEntity<Map<String, String>>(errorMap, HttpStatus.BAD_REQUEST);
+		
+		ResponseEntity<?> errorMap = validationService.MapValidationService(result);
+		if(errorMap != null) { // got an invalid object
+			return errorMap;
 		}
+
 		House newHouse = houseService.saveOrUpdateHouse(house);
 		return new ResponseEntity<House>(house, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/{houseId}")
+	public ResponseEntity<?> getHouseById(String houseId) {
+		Long id;
+		try {
+			id = Long.parseLong(houseId);
+		} catch (NumberFormatException n) {
+			throw new InvalidInputException("Cannot convert to long");
+		}
+		
+		House house = houseService.findHouseById(id);
+		return new ResponseEntity<House>(house, HttpStatus.OK);
 	}
 
 }

@@ -10,5 +10,7 @@ public interface HouseRepository extends CrudRepository<House, Long> {
 	
 	@Override
 	Iterable<House> findAllById(Iterable<Long> iterable);
+	
+	House findHouseById(Long id);
 
 }
