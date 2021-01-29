@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.jasper.HouseAPI.domain.House;
 import com.jasper.HouseAPI.exceptions.HouseCreationException;
+import com.jasper.HouseAPI.exceptions.HouseIdException;
 import com.jasper.HouseAPI.repositories.HouseRepository;
 
 @Service
@@ -24,8 +25,11 @@ public class HouseService {
 	}
 	
 	public House findHouseById(Long id) {
-		return houseRepository.findHouseById(id);
-		//return houseRepository.findById(id);
+		House house = houseRepository.findHouseById(id);
+		if(house == null) {
+			throw new HouseIdException("House ID " + id + " does not exist");
+		}
+		return house;
 	}
 
 }

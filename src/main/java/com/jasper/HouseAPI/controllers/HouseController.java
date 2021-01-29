@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,14 +46,13 @@ public class HouseController {
 	}
 	
 	@GetMapping("/{houseId}")
-	public ResponseEntity<?> getHouseById(String houseId) {
+	public ResponseEntity<?> getHouseById(@PathVariable String houseId) {
 		Long id;
 		try {
 			id = Long.parseLong(houseId);
 		} catch (NumberFormatException n) {
 			throw new InvalidInputException("Cannot convert to long");
 		}
-		
 		House house = houseService.findHouseById(id);
 		return new ResponseEntity<House>(house, HttpStatus.OK);
 	}
