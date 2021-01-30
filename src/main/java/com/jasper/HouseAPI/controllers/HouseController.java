@@ -61,8 +61,6 @@ public class HouseController {
 	
 	@GetMapping("")
 	public ResponseEntity<?> getAllHouses() {
-		//test
-		//houseService.extractFileData();
 		return houseService.findAllHouses();
 	}
 	

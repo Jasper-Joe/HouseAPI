@@ -25,6 +25,8 @@ public class House {
 	private String zip;
 	@NotBlank(message = "Property type is required")
 	private String propertyType;
+	//private String kURL = "http://localhost:8080/api/houses/";
+	private String location;
 	
 	// default constructor
 	public House() {
@@ -63,6 +65,11 @@ public class House {
 		return state;
 	}
 	
+	
+	public String getLocation() {
+		return location;
+	}
+	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -90,6 +97,11 @@ public class House {
 	public void setState(String state) {
 		this.state = state;
 	}
+	
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
 
 
 

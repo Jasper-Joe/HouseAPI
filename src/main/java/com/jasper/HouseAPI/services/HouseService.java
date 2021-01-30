@@ -27,10 +27,14 @@ public class HouseService {
 	@Autowired
 	private HouseRepository houseRepository;
 	
+	private String kURL = "http://localhost:8080/api/houses/";
+	
 	
 	
 	public House saveHouse(House house) {
 		try {
+			Long nextId = numOfRows() + 1;
+			house.setLocation(kURL + nextId);
 			return houseRepository.save(house);
 		} catch(Exception e) {
 			throw new HouseCreationException("House ID " + house.getId() + "cannot be created.");
@@ -56,6 +60,8 @@ public class HouseService {
 				house.setState(data[5]);
 				house.setZip(data[6]);
 				house.setPropertyType(data[7]);
+				Long nextId = numOfRows() + 1;
+				house.setLocation(kURL + nextId);
 				houseRepository.save(house);
 			}
 		} catch(IOException e) {
@@ -82,16 +88,17 @@ public class HouseService {
 		existingHouse.setStreet(house.getStreet());
 		existingHouse.setZip(house.getZip());
 		existingHouse.setPropertyType(house.getPropertyType());
+		
 		return houseRepository.save(existingHouse);
 	}
 	
 	public ResponseEntity<?> findAllHouses() {
 		Map<String, Object> map = new LinkedHashMap<>();
 		Iterable<House> res = houseRepository.findAll();
-		int count = 0;
-		for(House house : res) {
-			count++;
-		}
+		Long count = numOfRows();
+//		for(House house : res) {
+//			count++;
+//		}
 		map.put("itemCount", count);
 		map.put("items", res);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
@@ -114,6 +121,10 @@ public class HouseService {
 			return null;
 		}
 		return id;
+	}
+	
+	private Long numOfRows() {
+		return houseRepository.count();
 	}
 	
 
