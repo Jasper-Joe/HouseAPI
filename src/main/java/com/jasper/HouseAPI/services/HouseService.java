@@ -12,17 +12,19 @@ import org.springframework.stereotype.Service;
 import com.jasper.HouseAPI.domain.House;
 import com.jasper.HouseAPI.exceptions.HouseCreationException;
 import com.jasper.HouseAPI.exceptions.HouseIdException;
+import com.jasper.HouseAPI.exceptions.HouseNotFoundException;
+import com.jasper.HouseAPI.exceptions.InvalidInputException;
 import com.jasper.HouseAPI.repositories.HouseRepository;
 
 @Service
 public class HouseService {
 	
-	// handle logic here instead of in controllers
+	// handle business logic for controllers
 	
 	@Autowired
 	private HouseRepository houseRepository;
 	
-	public House saveOrUpdateHouse(House house) {
+	public House saveHouse(House house) {
 		try {
 			return houseRepository.save(house);
 		} catch(Exception e) {
@@ -32,16 +34,25 @@ public class HouseService {
 	
 	public House findHouseById(Long id) {
 		House house = houseRepository.findHouseById(id);
-		if(house == null) {
-			throw new HouseIdException("House ID " + id + " does not exist");
-		}
 		return house;
 	}
 	
-//	public Iterable<House> findAllHouses() {
-//		
-//		return houseRepository.findAll();
-//	}
+	public House updateHouse(House house, Long id) {
+		House existingHouse = houseRepository.findHouseById(id);
+		if(existingHouse == null) {
+			throw new HouseNotFoundException("This cannot be updated, because it does not exist");
+		}
+		if(house.getCity() == null || house.getFirstName() == null || house.getLastName() == null || house.getStreet() == null || house.getZip() == null || house.getPropertyType() == null) {
+			throw new InvalidInputException("All fields are required");
+		}
+		existingHouse.setCity(house.getCity());
+		existingHouse.setFirstName(house.getFirstName());
+		existingHouse.setLastName(house.getLastName());
+		existingHouse.setStreet(house.getStreet());
+		existingHouse.setZip(house.getZip());
+		existingHouse.setPropertyType(house.getPropertyType());
+		return houseRepository.save(existingHouse);
+	}
 	
 	public ResponseEntity<?> findAllHouses() {
 		Map<String, Object> map = new LinkedHashMap<>();
@@ -62,8 +73,16 @@ public class HouseService {
 		}
 		
 		houseRepository.delete(house);
-		
-		
+	}
+	
+	public Long stringToLong(String houseId) {
+		Long id;
+		try {
+			id = Long.parseLong(houseId);
+		} catch (NumberFormatException n) {
+			return null;
+		}
+		return id;
 	}
 	
 

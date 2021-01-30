@@ -36,7 +36,7 @@ public class House {
 	public String getFirstName() {
 		return firstName;
 	}
-
+	
 	public String getLastName() {
 		return lastName;
 	}
@@ -56,6 +56,32 @@ public class House {
 	public String getPropertyType() {
 		return propertyType;
 	}
+	
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType;
+	}
+
+
 
 
 	
