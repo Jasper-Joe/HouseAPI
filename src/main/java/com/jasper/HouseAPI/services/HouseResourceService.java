@@ -30,7 +30,7 @@ import com.jasper.HouseAPI.repositories.HouseResourceRepository;
 public class HouseResourceService {
 	
 	@Autowired
-	private HouseResourceRepository houseRepository;
+	private HouseResourceRepository houseResourceRepository;
 	
 	// constant string(URL prefix) used to set location property
 	private final String kURL = "http://localhost:8080/api/houses/";
@@ -47,53 +47,76 @@ public class HouseResourceService {
 			
 			// Set location property before saving into database
 			house.setLocation(kURL + nextId);
-			return houseRepository.save(house);
+			return houseResourceRepository.save(house);
 		} catch(Exception e) {
 			throw new HouseCreationException("House ID " + house.getId() + "cannot be created.");
 		}
 	}
 	
+	/**
+	 * Get the <code>HouseResource</code> with ID: id
+	 * @param id HouseResource's ID
+	 * @return HouseResource with ID: id. Return null if not found
+	 */
 	public HouseResource findHouseById(Long id) {
-		HouseResource house = houseRepository.findHouseResourceById(id);
+		HouseResource house = houseResourceRepository.findHouseResourceById(id);
 		return house;
 	}
 	
-	public HouseResource updateHouse(HouseResource house, Long id) {
-		HouseResource existingHouse = houseRepository.findHouseResourceById(id);
+	/**
+	 * Replace HouseResource with ID: id with new <code>HouseResource</code> house
+	 * @param newHouseResource New HouseResource
+	 * @param id HouseResource's ID
+	 * @return Updated HouseResource
+	 */
+	public HouseResource updateHouse(HouseResource newHouseResource, Long id) {
+		HouseResource existingHouse = houseResourceRepository.findHouseResourceById(id);
 		if(existingHouse == null) {
 			throw new HouseNotFoundException("This cannot be updated, because it does not exist");
 		}
-		if(house.getCity() == null || house.getFirstName() == null || house.getLastName() == null || house.getStreet() == null || house.getZip() == null || house.getPropertyType() == null) {
+		if(newHouseResource.getCity() == null || newHouseResource.getFirstName() == null || newHouseResource.getLastName() == null || newHouseResource.getStreet() == null || newHouseResource.getZip() == null || newHouseResource.getPropertyType() == null) {
 			throw new InvalidInputException("All fields are required");
 		}
-		existingHouse.setCity(house.getCity());
-		existingHouse.setFirstName(house.getFirstName());
-		existingHouse.setLastName(house.getLastName());
-		existingHouse.setStreet(house.getStreet());
-		existingHouse.setZip(house.getZip());
-		existingHouse.setPropertyType(house.getPropertyType());
-		
-		return houseRepository.save(existingHouse);
+		existingHouse.setCity(newHouseResource.getCity());
+		existingHouse.setFirstName(newHouseResource.getFirstName());
+		existingHouse.setLastName(newHouseResource.getLastName());
+		existingHouse.setStreet(newHouseResource.getStreet());
+		existingHouse.setZip(newHouseResource.getZip());
+		existingHouse.setPropertyType(newHouseResource.getPropertyType());
+		return houseResourceRepository.save(existingHouse);
 	}
 	
+	/**
+	 * List all house resources stored in database
+	 * @return All house resources currently available
+	 */
 	public ResponseEntity<?> findAllHouses() {
 		Map<String, Object> map = new LinkedHashMap<>();
-		Iterable<HouseResource> res = houseRepository.findAll();
+		Iterable<HouseResource> res = houseResourceRepository.findAll();
 		Long count = numOfRows();
 		map.put("itemCount", count);
 		map.put("items", res);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 	
+	/**
+	 * Delete house resource with ID: id
+	 * @param id House ID to delete
+	 */
 	public void deleteHouseById(Long id) {
-		HouseResource house = houseRepository.findHouseResourceById(id);
+		HouseResource house = houseResourceRepository.findHouseResourceById(id);
 		if(house == null) {
 			throw new HouseIdException("This house id does not exist");
 		}
 		
-		houseRepository.delete(house);
+		houseResourceRepository.delete(house);
 	}
 	
+	/**
+	 * Convert String ID to Long type
+	 * @param houseId String ID to convert
+	 * @return ID with Long type. If houseId is invalid, return null
+	 */
 	public Long stringToLong(String houseId) {
 		Long id;
 		try {
@@ -104,8 +127,12 @@ public class HouseResourceService {
 		return id;
 	}
 	
+	/**
+	 * 
+	 * @return How many house resources stored in database
+	 */
 	private Long numOfRows() {
-		return houseRepository.count();
+		return houseResourceRepository.count();
 	}
 	
 	/**
@@ -139,7 +166,7 @@ public class HouseResourceService {
 				
 				// concatenate URL prefix with ID to set location property
 				house.setLocation(kURL + nextId);
-				houseRepository.save(house);
+				houseResourceRepository.save(house);
 			}
 			
 			// For security reason, after reading the file, close it!
