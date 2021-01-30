@@ -25,7 +25,6 @@ public class House {
 	private String zip;
 	@NotBlank(message = "Property type is required")
 	private String propertyType;
-	//private String kURL = "http://localhost:8080/api/houses/";
 	private String location;
 	
 	// default constructor

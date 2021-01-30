@@ -1,6 +1,7 @@
 package com.jasper.HouseAPI.controllers;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class HouseController {
 			return errorMap;
 		}
 
-		House newHouse = houseService.saveHouse(house);
+		houseService.saveHouse(house);
 		return new ResponseEntity<House>(house, HttpStatus.CREATED);
 	}
 	

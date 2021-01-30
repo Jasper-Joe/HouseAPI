@@ -96,9 +96,6 @@ public class HouseService {
 		Map<String, Object> map = new LinkedHashMap<>();
 		Iterable<House> res = houseRepository.findAll();
 		Long count = numOfRows();
-//		for(House house : res) {
-//			count++;
-//		}
 		map.put("itemCount", count);
 		map.put("items", res);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
