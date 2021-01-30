@@ -19,6 +19,8 @@ public class House {
 	private String street;
 	@NotBlank(message = "City field is required")
 	private String city;
+	@NotBlank(message = "State field is required")
+	private String state;
 	@NotBlank(message = "Zip field is required")
 	private String zip;
 	@NotBlank(message = "Property type is required")
@@ -57,6 +59,10 @@ public class House {
 		return propertyType;
 	}
 	
+	public String getState() {
+		return state;
+	}
+	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -79,6 +85,10 @@ public class House {
 
 	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
+	}
+	
+	public void setState(String state) {
+		this.state = state;
 	}
 
 

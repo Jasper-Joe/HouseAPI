@@ -1,5 +1,8 @@
 package com.jasper.HouseAPI.services;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,11 +27,39 @@ public class HouseService {
 	@Autowired
 	private HouseRepository houseRepository;
 	
+	
+	
 	public House saveHouse(House house) {
 		try {
 			return houseRepository.save(house);
 		} catch(Exception e) {
 			throw new HouseCreationException("House ID " + house.getId() + "cannot be created.");
+		}
+	}
+	
+	public void extractFileData() {
+		boolean isHeader = true;
+		String line = "";
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/houses.csv"));
+			while((line = br.readLine()) != null) {
+				if(isHeader) { // Filter out file header
+					isHeader = false;
+					continue;
+				}
+				String[] data = line.split(",");
+				House house = new House();
+				house.setFirstName(data[1]);
+				house.setLastName(data[2]);
+				house.setStreet(data[3]);
+				house.setCity(data[4]);
+				house.setState(data[5]);
+				house.setZip(data[6]);
+				house.setPropertyType(data[7]);
+				houseRepository.save(house);
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
