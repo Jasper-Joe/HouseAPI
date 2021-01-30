@@ -16,23 +16,32 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 public class HouseResource {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@NotBlank(message = "Owner's first name is required")
 	private String firstName;
+	
 	@NotBlank(message = "Owner's last name is required")
 	private String lastName;
+	
 	@NotBlank(message = "Street field is required")
 	private String street;
+	
 	@NotBlank(message = "City field is required")
 	private String city;
+	
 	@NotBlank(message = "State field is required")
 	private String state;
+	
 	@NotBlank(message = "Zip field is required")
 	private String zip;
+	
 	@NotBlank(message = "Property type is required")
 	private String propertyType;
+	
 	private String location;
 	
 	// default constructor

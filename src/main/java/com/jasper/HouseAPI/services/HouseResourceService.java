@@ -1,6 +1,7 @@
 package com.jasper.HouseAPI.services;
 
 import java.io.BufferedReader;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,53 +20,36 @@ import com.jasper.HouseAPI.exceptions.HouseNotFoundException;
 import com.jasper.HouseAPI.exceptions.InvalidInputException;
 import com.jasper.HouseAPI.repositories.HouseResourceRepository;
 
+/**
+ * HouseResourceService class is used to decouple business logical from controllers
+ * @author jinglunzhou
+ *
+ */
+
 @Service
 public class HouseResourceService {
-	
-	// handle business logic for controllers
 	
 	@Autowired
 	private HouseResourceRepository houseRepository;
 	
-	private String kURL = "http://localhost:8080/api/houses/";
+	// constant string(URL prefix) used to set location property
+	private final String kURL = "http://localhost:8080/api/houses/";
 	
-	
-	
+	/**
+	 * Save the house resource into database
+	 * @param house The <code>HouseResource</code> to save
+	 * @return The <code>HouseResource</code> just saved
+	 */
 	public HouseResource saveHouse(HouseResource house) {
 		try {
+			// nextId represents the current HouseResource's ID
 			Long nextId = numOfRows() + 1;
+			
+			// Set location property before saving into database
 			house.setLocation(kURL + nextId);
 			return houseRepository.save(house);
 		} catch(Exception e) {
 			throw new HouseCreationException("House ID " + house.getId() + "cannot be created.");
-		}
-	}
-	
-	public void extractFileData() {
-		boolean isHeader = true;
-		String line = "";
-		try {
-			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/houses.csv"));
-			while((line = br.readLine()) != null) {
-				if(isHeader) { // Filter out file header
-					isHeader = false;
-					continue;
-				}
-				String[] data = line.split(",");
-				HouseResource house = new HouseResource();
-				house.setFirstName(data[1]);
-				house.setLastName(data[2]);
-				house.setStreet(data[3]);
-				house.setCity(data[4]);
-				house.setState(data[5]);
-				house.setZip(data[6]);
-				house.setPropertyType(data[7]);
-				Long nextId = numOfRows() + 1;
-				house.setLocation(kURL + nextId);
-				houseRepository.save(house);
-			}
-		} catch(IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -122,6 +106,47 @@ public class HouseResourceService {
 	
 	private Long numOfRows() {
 		return houseRepository.count();
+	}
+	
+	/**
+	 * Read initial data from CSV file
+	 * Only used once when the application starts
+	 */
+	public void extractFileData() {
+		
+		// A flag used to filter out the file header
+		boolean isHeader = true;
+		String line = "";
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("src/main/resources/houses.csv"));
+			while((line = br.readLine()) != null) {
+				
+				// If isHeader is true, meaning this is file header, ignore
+				if(isHeader) {
+					isHeader = false;
+					continue;
+				}
+				String[] data = line.split(",");
+				HouseResource house = new HouseResource();
+				house.setFirstName(data[1]);
+				house.setLastName(data[2]);
+				house.setStreet(data[3]);
+				house.setCity(data[4]);
+				house.setState(data[5]);
+				house.setZip(data[6]);
+				house.setPropertyType(data[7]);
+				Long nextId = numOfRows() + 1;
+				
+				// concatenate URL prefix with ID to set location property
+				house.setLocation(kURL + nextId);
+				houseRepository.save(house);
+			}
+			
+			// For security reason, after reading the file, close it!
+			br.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 
