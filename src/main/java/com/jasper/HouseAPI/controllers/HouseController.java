@@ -52,10 +52,18 @@ public class HouseController {
 	@GetMapping("/{houseId}")
 	public ResponseEntity<?> getHouseById(@PathVariable String houseId) {
 		Long id = houseService.stringToLong(houseId);
-		if(id == null) {
+		
+		if(id == null || id <= 0) {
 			return new ResponseEntity<String>("House Id is invalid", HttpStatus.BAD_REQUEST);
 		}
+		
 		House house = houseService.findHouseById(id);
+		
+		if(house == null) {
+			// House Id is valid, but cannot find according house resource
+			return new ResponseEntity<String>("House with ID: " + houseId + " does not exist.", HttpStatus.OK);
+		}
+		
 		return new ResponseEntity<House>(house, HttpStatus.OK);
 	}
 	
@@ -78,10 +86,15 @@ public class HouseController {
 	
 	
 	@PutMapping("/{houseId}")
-	public ResponseEntity<?> updateHouse(@RequestBody House house, @PathVariable String houseId) {
+	public ResponseEntity<?> updateHouse(@RequestBody House house, @PathVariable String houseId, BindingResult result) {
 		Long id = houseService.stringToLong(houseId);
-		if(id == null) {
+		if(id == null || id <= 0) {
 			return new ResponseEntity<String>("House Id is invalid", HttpStatus.BAD_REQUEST);
+		}
+		
+		ResponseEntity<?> errorMap = validationService.MapValidationService(result);
+		if(errorMap != null) { // got an invalid object
+			return errorMap;
 		}
 
 		House previouseHouse = houseService.findHouseById(id);
