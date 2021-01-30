@@ -1,13 +1,21 @@
 package com.jasper.HouseAPI.domain;
 
 import javax.persistence.Entity;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
+/**
+ * Simple domain object representing one single house resource
+ * 
+ * @author jinglunzhou
+ *
+ */
+
 @Entity
-public class House {
+public class HouseResource {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -28,7 +36,7 @@ public class House {
 	private String location;
 	
 	// default constructor
-	public House() {
+	public HouseResource() {
 		
 	}
 

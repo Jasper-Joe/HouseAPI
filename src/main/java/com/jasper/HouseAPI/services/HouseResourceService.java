@@ -12,26 +12,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.jasper.HouseAPI.domain.House;
+import com.jasper.HouseAPI.domain.HouseResource;
 import com.jasper.HouseAPI.exceptions.HouseCreationException;
 import com.jasper.HouseAPI.exceptions.HouseIdException;
 import com.jasper.HouseAPI.exceptions.HouseNotFoundException;
 import com.jasper.HouseAPI.exceptions.InvalidInputException;
-import com.jasper.HouseAPI.repositories.HouseRepository;
+import com.jasper.HouseAPI.repositories.HouseResourceRepository;
 
 @Service
-public class HouseService {
+public class HouseResourceService {
 	
 	// handle business logic for controllers
 	
 	@Autowired
-	private HouseRepository houseRepository;
+	private HouseResourceRepository houseRepository;
 	
 	private String kURL = "http://localhost:8080/api/houses/";
 	
 	
 	
-	public House saveHouse(House house) {
+	public HouseResource saveHouse(HouseResource house) {
 		try {
 			Long nextId = numOfRows() + 1;
 			house.setLocation(kURL + nextId);
@@ -52,7 +52,7 @@ public class HouseService {
 					continue;
 				}
 				String[] data = line.split(",");
-				House house = new House();
+				HouseResource house = new HouseResource();
 				house.setFirstName(data[1]);
 				house.setLastName(data[2]);
 				house.setStreet(data[3]);
@@ -69,13 +69,13 @@ public class HouseService {
 		}
 	}
 	
-	public House findHouseById(Long id) {
-		House house = houseRepository.findHouseById(id);
+	public HouseResource findHouseById(Long id) {
+		HouseResource house = houseRepository.findHouseResourceById(id);
 		return house;
 	}
 	
-	public House updateHouse(House house, Long id) {
-		House existingHouse = houseRepository.findHouseById(id);
+	public HouseResource updateHouse(HouseResource house, Long id) {
+		HouseResource existingHouse = houseRepository.findHouseResourceById(id);
 		if(existingHouse == null) {
 			throw new HouseNotFoundException("This cannot be updated, because it does not exist");
 		}
@@ -94,7 +94,7 @@ public class HouseService {
 	
 	public ResponseEntity<?> findAllHouses() {
 		Map<String, Object> map = new LinkedHashMap<>();
-		Iterable<House> res = houseRepository.findAll();
+		Iterable<HouseResource> res = houseRepository.findAll();
 		Long count = numOfRows();
 		map.put("itemCount", count);
 		map.put("items", res);
@@ -102,7 +102,7 @@ public class HouseService {
 	}
 	
 	public void deleteHouseById(Long id) {
-		House house = houseRepository.findHouseById(id);
+		HouseResource house = houseRepository.findHouseResourceById(id);
 		if(house == null) {
 			throw new HouseIdException("This house id does not exist");
 		}

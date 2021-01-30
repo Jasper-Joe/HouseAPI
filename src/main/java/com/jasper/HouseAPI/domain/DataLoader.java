@@ -5,14 +5,14 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.jasper.HouseAPI.services.HouseService;
+import com.jasper.HouseAPI.services.HouseResourceService;
 
 @Component
 public class DataLoader {
-	private HouseService houseService;
+	private HouseResourceService houseService;
 	
 	@Autowired
-	public DataLoader(HouseService houseService) {
+	public DataLoader(HouseResourceService houseService) {
 		this.houseService = houseService;
 	}
 	
