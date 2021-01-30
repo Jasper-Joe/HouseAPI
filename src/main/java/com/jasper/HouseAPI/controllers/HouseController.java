@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,6 +66,19 @@ public class HouseController {
 	@GetMapping("")
 	public ResponseEntity<?> getAllHouses() {
 		return houseService.findAllHouses();
+	}
+	
+	@DeleteMapping("/{houseId}")
+	public ResponseEntity<?> deleteHouse(@PathVariable String houseId) {
+		Long id;
+		try {
+			id = Long.parseLong(houseId);
+		} catch (NumberFormatException n) {
+			throw new InvalidInputException("Cannot convert to long");
+		}
+		
+		houseService.deleteHouseById(id);
+		return new ResponseEntity<String>("House with ID: " + houseId + " was deleted", HttpStatus.OK);
 	}
 
 }

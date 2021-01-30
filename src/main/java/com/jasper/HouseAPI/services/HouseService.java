@@ -55,5 +55,16 @@ public class HouseService {
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 	
+	public void deleteHouseById(Long id) {
+		House house = houseRepository.findHouseById(id);
+		if(house == null) {
+			throw new HouseIdException("This house id does not exist");
+		}
+		
+		houseRepository.delete(house);
+		
+		
+	}
+	
 
 }
