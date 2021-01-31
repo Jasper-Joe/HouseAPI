@@ -1,6 +1,9 @@
 package com.jasper.HouseAPI.servicesTest;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 
@@ -17,7 +20,6 @@ import org.junit.runner.RunWith;
 import com.jasper.HouseAPI.domain.HouseResource;
 import com.jasper.HouseAPI.repositories.HouseResourceRepository;
 import com.jasper.HouseAPI.services.HouseResourceService;
-
 
 @SpringBootTest
 class HouseResourceServiceTest {
@@ -73,9 +75,8 @@ class HouseResourceServiceTest {
 		house.setState("MA");
 		house.setStreet("Pearl St");
 		
-		Mockito.when(rep.findById((long) 1));
-		System.out.println(houseResourceService.findHouseById((long) 1).getId());
-		assertThat(houseResourceService.findHouseById((long) 11)).isEqualTo(house);
+		Mockito.when(rep.findHouseResourceById((long) 1)).thenReturn(house);
+		assertThat(houseResourceService.findHouseById((long) 1)).isEqualTo(house);
 	}
 
 }
