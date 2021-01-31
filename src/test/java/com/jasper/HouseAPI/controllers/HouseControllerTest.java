@@ -35,18 +35,18 @@ class HouseControllerTest {
 //		houseResourceService.extractFileData();
 //	}
 
-	@Test
-	void test() {
-		
-	}
-	
-	@Test
-	void getAllHousesTest() throws Exception {
-		RequestBuilder request = MockMvcRequestBuilders.get("/");
-		MvcResult result = mvc.perform(request).andReturn();
-		//System.out.println(result.getResponse().getContentAsString());
-		assertEquals("", result.getResponse().getContentAsString());
-		
-	}
+//	@Test
+//	void test() {
+//		
+//	}
+//	
+//	@Test
+//	void getAllHousesTest() throws Exception {
+//		RequestBuilder request = MockMvcRequestBuilders.get("/");
+//		MvcResult result = mvc.perform(request).andReturn();
+//		//System.out.println(result.getResponse().getContentAsString());
+//		assertEquals("", result.getResponse().getContentAsString());
+//		
+//	}
 
 }
