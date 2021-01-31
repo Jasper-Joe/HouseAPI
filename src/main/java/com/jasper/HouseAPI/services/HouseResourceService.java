@@ -130,7 +130,7 @@ public class HouseResourceService {
 	 * 
 	 * @return How many house resources stored in database
 	 */
-	private Long numOfRows() {
+	public Long numOfRows() {
 		return houseResourceRepository.count();
 	}
 	

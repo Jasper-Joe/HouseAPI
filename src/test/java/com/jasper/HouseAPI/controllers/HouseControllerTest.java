@@ -14,16 +14,26 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.jasper.HouseAPI.repositories.HouseResourceRepository;
+import com.jasper.HouseAPI.services.HouseResourceService;
+
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(HouseController.class)
 class HouseControllerTest {
 	
 	@Autowired
 	private MockMvc mvc;
+	
+	@Autowired
+	private HouseResourceService houseResourceService;
+	
+	@Autowired
+	private HouseResourceRepository houseResourceRepository;
 
-	@BeforeEach
-	void setUp() throws Exception {
-	}
+//	@BeforeEach
+//	void setUp() throws Exception {
+//		houseResourceService.extractFileData();
+//	}
 
 	@Test
 	void test() {
@@ -31,11 +41,11 @@ class HouseControllerTest {
 	}
 	
 	@Test
-	void getAllHouses() throws Exception {
+	void getAllHousesTest() throws Exception {
 		RequestBuilder request = MockMvcRequestBuilders.get("/");
 		MvcResult result = mvc.perform(request).andReturn();
-		System.out.println(result.getResponse().getContentAsString());
-		//assertEquals("", result.getResponse().getContentAsString());
+		//System.out.println(result.getResponse().getContentAsString());
+		assertEquals("", result.getResponse().getContentAsString());
 		
 	}
 
