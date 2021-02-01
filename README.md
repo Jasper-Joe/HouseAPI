@@ -40,8 +40,12 @@ Since we only need 3 endpoints related to house resources data, I didn't create 
 I used Spring Boot Framework to develop this REST API, because it can shorten the code length and provide an easy way to develop Web Applications and it automatically configures the classes based on the requirement while reducing boilerplate code.  
 
 ### Architecture
-The client can make the HTTP requests(GET, POST, PUT). The request goes to the controller, and the controller maps the request and pass that request to service layer.
-I added the service layer(HouseResourceService class) which is used to decouple business logical from controllers. In the service layer, it performs all the business logic on the data that is mapped to JPA with HouseResource model class.  
+* Presentation Layer: HouseController is built to handle the HTTP request, and to translate the JSON parameter to object.
+* Business Layer: HouseResourceService is used to handle all the business logic.
+* Persistence Layer: HouseResourceRepository is used to translate business objects from and to database. 
+* Database Layer: Perform CRUD operations. 
+
+The client can make the HTTP requests(GET, POST, PUT). The request goes to the controller, and the controller maps the request and pass that request to service layer. I added the service layer(HouseResourceService) which is used to decouple business logical from controllers. In the service layer, it performs all the business logic on the data that is mapped to JPA with HouseResource model class.  
 
 ### H2 database
 In its default configuration, House API uses an embedded, in-memory database H2 which gets populated at startup with data extracted from CSV file. 
