@@ -152,7 +152,7 @@ public class HouseResourceService {
 					isHeader = false;
 					continue;
 				}
-				String[] data = line.split(",");
+				String[] data = line.split(", ");
 				HouseResource house = new HouseResource();
 				house.setFirstName(data[1]);
 				house.setLastName(data[2]);

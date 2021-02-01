@@ -1,5 +1,7 @@
 package com.jasper.HouseAPI.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -12,8 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class WelcomeController {
 	
 	@GetMapping("/")
-	public String welcome() {
-		return "Welcome to VISION GOVERNMENT SOLUTIONS.";
+	public ResponseEntity<String> welcome() {
+		String message = "Welcome to VISION GOVERNMENT SOLUTIONS.";
+		return new ResponseEntity<String>(message, HttpStatus.OK);
 	}
 
 }
