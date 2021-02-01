@@ -12,7 +12,8 @@ The following items should be installed in your system:
 ### Steps:
 
 1. On the command line
-Create a new directory. CD into that directory you just created. Then run:
+
+ Create a new directory. CD into that directory you just created. Then run:
 
 ```
 git init

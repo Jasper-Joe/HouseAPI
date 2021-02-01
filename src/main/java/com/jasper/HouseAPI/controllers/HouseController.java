@@ -27,6 +27,11 @@ import com.jasper.HouseAPI.exceptions.InvalidInputException;
 import com.jasper.HouseAPI.services.HouseResourceService;
 import com.jasper.HouseAPI.services.ValidationService;
 
+/**
+ * Handle the HTTP requests
+ * @author jinglunzhou
+ *
+ */
 @RestController
 @RequestMapping("/api/houses")
 public class HouseController {
@@ -41,7 +46,8 @@ public class HouseController {
 	public ResponseEntity<?> createNewHouse(@Valid @RequestBody HouseResource house, BindingResult result) {
 		
 		ResponseEntity<?> errorMap = validationService.MapValidationService(result);
-		if(errorMap != null) { // got an invalid object
+		// If we get an invalid input object, return error message
+		if(errorMap != null) { 
 			return errorMap;
 		}
 
@@ -53,12 +59,14 @@ public class HouseController {
 	public ResponseEntity<?> getHouseById(@PathVariable String houseId) {
 		Long id = houseService.stringToLong(houseId);
 		
+		// If input ID is invalid
 		if(id == null || id <= 0) {
 			return new ResponseEntity<String>("House Id is invalid", HttpStatus.BAD_REQUEST);
 		}
 		
 		HouseResource house = houseService.findHouseById(id);
 		
+		// If the house does not exist 
 		if(house == null) {
 			// House Id is valid, but cannot find according house resource
 			return new ResponseEntity<String>("House with ID: " + houseId + " does not exist.", HttpStatus.OK);
@@ -93,11 +101,15 @@ public class HouseController {
 		}
 		
 		ResponseEntity<?> errorMap = validationService.MapValidationService(result);
-		if(errorMap != null) { // got an invalid object
+		
+		// If we get an invalid input object, return error message
+		if(errorMap != null) { 
 			return errorMap;
 		}
 
 		HouseResource previouseHouse = houseService.findHouseById(id);
+		
+		// If the house to update does not exist
 		if(previouseHouse == null) {
 			return new ResponseEntity<String>("House with ID: " + houseId + " does not exist.", HttpStatus.BAD_REQUEST);
 		}

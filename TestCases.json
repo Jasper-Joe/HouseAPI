@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "localhost:8080/api/houses/",
+			"name": "GetALL",
 			"event": [
 				{
 					"listen": "test",
@@ -16,9 +16,20 @@
 							"    pm.response.to.have.status(200);",
 							"})",
 							"",
-							"pm.test('has 10 items', function() {",
+							"pm.test('First name of second house owner is Fred', function() {",
 							"    var responseJson = pm.response.json();",
-							"    pm.expect(responseJson.itemCount).to.eql(10);",
+							"    pm.expect(responseJson.items[1].firstName).to.eql(\"Fred\");",
+							"})",
+							"",
+							"pm.test('Zip of 10th house is 01749', function() {",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.items[9].zip).to.eql(\"01749\");",
+							"})",
+							"",
+							"",
+							"pm.test('City of 9th house is Hudson', function() {",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.items[8].city).to.eql(\"Hudson\");",
 							"})"
 						],
 						"type": "text/javascript"
@@ -82,12 +93,6 @@
 							"    var responseJson = pm.response.json();",
 							"    var s = \"South St\"",
 							"    pm.expect(responseJson.street).to.eql(s);",
-							"})",
-							"",
-							"pm.test('city is Hudson', function() {",
-							"    var responseJson = pm.response.json();",
-							"    var s = \"Hudson\"",
-							"    pm.expect(responseJson.city).to.eql(s);",
 							"})",
 							"",
 							"pm.test('state is MA', function() {",
@@ -214,6 +219,307 @@
 						"api",
 						"houses",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetHomePage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code is 200', function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FieldIsRequired",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('zip is required', function() {",
+							"    pm.response.to.have.status(400);",
+							"})",
+							"",
+							"",
+							"pm.test(\"Message is correct\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Zip field is required\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Jasper\",\n    \"lastName\": \"Zhou\",\n    \"street\": \"Pearl St\",\n    \"city\": \"Hudson\",\n    \"state\": \"MA\",\n    \"propertyType\": \"Multiple Family\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/houses/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"houses",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InvalidIdNegativeNumber",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('zip is required', function() {",
+							"    pm.response.to.have.status(400);",
+							"})",
+							"",
+							"",
+							"pm.test(\"Message is correct\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"House Id is invalid\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/houses/-1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"houses",
+						"-1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InvalidIdNotANumber",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('zip is required', function() {",
+							"    pm.response.to.have.status(400);",
+							"})",
+							"",
+							"",
+							"pm.test(\"Message is correct\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"House Id is invalid\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/houses/abc",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"houses",
+						"abc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code is 200', function() {",
+							"    pm.response.to.have.status(201);",
+							"})",
+							"",
+							"pm.test('First name is Jack', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"Jack\"",
+							"    pm.expect(responseJson.firstName).to.eql(s);",
+							"})",
+							"",
+							"pm.test('city is Medford', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"Medford\"",
+							"    pm.expect(responseJson.city).to.eql(s);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Jack\",\n    \"lastName\": \"Smith\",\n    \"street\": \"South St\",\n    \"city\": \"Medford\",\n    \"state\": \"MA\",\n    \"zip\": \"01749\",\n    \"propertyType\": \"Single Family\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/houses/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"houses",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateObjectNotExist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code is 400', function() {",
+							"    pm.response.to.have.status(400);",
+							"})",
+							"",
+							"pm.test(\"Message is correct\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"House with ID: 111 does not exist\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Jack\",\n    \"lastName\": \"Smith\",\n    \"street\": \"South St\",\n    \"city\": \"Medford\",\n    \"state\": \"MA\",\n    \"zip\": \"01749\",\n    \"propertyType\": \"Single Family\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/houses/111",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"houses",
+						"111"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateIdInvalid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code is 400', function() {",
+							"    pm.response.to.have.status(400);",
+							"})",
+							"",
+							"pm.test(\"Message is correct\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"House Id is invalid\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Jack\",\n    \"lastName\": \"Smith\",\n    \"street\": \"South St\",\n    \"city\": \"Medford\",\n    \"state\": \"MA\",\n    \"zip\": \"01749\",\n    \"propertyType\": \"Single Family\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/houses/-99",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"houses",
+						"-99"
 					]
 				}
 			},
