@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "724f507c-9b8e-4823-afda-1cea27315f39",
+		"name": "HouseAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/api/houses/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code is 200', function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test('has 10 items', function() {",
+							"    var responseJson = pm.response.json();",
+							"    pm.expect(responseJson.itemCount).to.eql(10);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \" Bob\",\n    \"lastName\": \" Dun\",\n    \"street\": \" Fuyat St\",\n    \"city\": \" Chicago\",\n    \"state\": \" MA\",\n    \"zip\": \" 01749\",\n    \"propertyType\": \" Multi Family\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/houses/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"houses",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindByID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('status code is 200', function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test('First name is Jack', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"Jack\"",
+							"    pm.expect(responseJson.firstName).to.eql(s);",
+							"})",
+							"",
+							"pm.test('Last name is Smith', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"Smith\"",
+							"    pm.expect(responseJson.lastName).to.eql(s);",
+							"})",
+							"",
+							"pm.test('Stree is South St', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"South St\"",
+							"    pm.expect(responseJson.street).to.eql(s);",
+							"})",
+							"",
+							"pm.test('city is Hudson', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"Hudson\"",
+							"    pm.expect(responseJson.city).to.eql(s);",
+							"})",
+							"",
+							"pm.test('state is MA', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"MA\"",
+							"    pm.expect(responseJson.state).to.eql(s);",
+							"})",
+							"",
+							"",
+							"pm.test('zip is 01749', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"01749\"",
+							"    pm.expect(responseJson.zip).to.eql(s);",
+							"})",
+							"",
+							"pm.test('property type is Single Family', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"Single Family\"",
+							"    pm.expect(responseJson.propertyType).to.eql(s);",
+							"})",
+							"",
+							"pm.test('location is http://localhost:8080/api/houses/1', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"http://localhost:8080/api/houses/1\"",
+							"    pm.expect(responseJson.location).to.eql(s);",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/houses/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"houses",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostHouseResource",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('First name is Jasper', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"Jasper\"",
+							"    pm.expect(responseJson.firstName).to.eql(s);",
+							"})",
+							"",
+							"pm.test('Last name is Zhou', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"Zhou\"",
+							"    pm.expect(responseJson.lastName).to.eql(s);",
+							"})",
+							"",
+							"pm.test('Stree is Pearl St', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"Pearl St\"",
+							"    pm.expect(responseJson.street).to.eql(s);",
+							"})",
+							"",
+							"pm.test('city is Hudson', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"Hudson\"",
+							"    pm.expect(responseJson.city).to.eql(s);",
+							"})",
+							"",
+							"pm.test('state is MA', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"MA\"",
+							"    pm.expect(responseJson.state).to.eql(s);",
+							"})",
+							"",
+							"",
+							"pm.test('zip is 01749', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"01749\"",
+							"    pm.expect(responseJson.zip).to.eql(s);",
+							"})",
+							"",
+							"pm.test('property type is Multiple Family', function() {",
+							"    var responseJson = pm.response.json();",
+							"    var s = \"Multiple Family\"",
+							"    pm.expect(responseJson.propertyType).to.eql(s);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Jasper\",\n    \"lastName\": \"Zhou\",\n    \"street\": \"Pearl St\",\n    \"city\": \"Hudson\",\n    \"state\": \"MA\",\n    \"zip\": \"01749\",\n    \"propertyType\": \"Multiple Family\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/houses/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"houses",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

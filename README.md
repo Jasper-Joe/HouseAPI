@@ -12,13 +12,38 @@ The following items should be installed in your system:
 ### Steps:
 
 1. On the command line
+Create a new directory. CD into that directory you just created. Then run:
+
+```
+git init
+```
+
 ```
 git clone https://github.com/Jasper-Joe/HouseAPI
 ```
+
 2. Inside STS
-Run the application  by right clicking on HouseAPI  under Package Explorer and <code>Run As -> Spring Boot App</code>
-You can run it from the command line:
+
+```
+File -> Open Project from File System -> Directory -> Choose directory you created
+```
+
+Run the application  by right clicking on HouseAPI  under Package Explorer and <code>Run As -> Configurations -> Click run</code>
+
+3. Navigate to HOUSE API
+
 You can access HOUSE API with:  http://localhost:8080/
+
+4. Run Tests
+
+Open the terminal, CD into HouseAPI directory, then run
+```
+$ npm install -g newman
+```
+```
+$ newman run TestCases.json
+```
+
 
 
 ## Notes about any improvements you'd like to make but did not have time to make
