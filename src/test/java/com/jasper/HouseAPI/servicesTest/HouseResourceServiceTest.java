@@ -91,39 +91,5 @@ class HouseResourceServiceTest {
 		Mockito.when(rep.findHouseResourceById((long) 1)).thenReturn(house);
 		assertThat(houseResourceService.findHouseById((long) 1)).isEqualTo(house);
 	}
-	
-	
-//	@Test
-//	public void testFindAllHouses() {
-//		HouseResource house = new HouseResource();
-//		house.setCity("Medford");
-//		house.setFirstName("Jasper");
-//		house.setLastName("Zhou");
-//		house.setZip("02155");
-//		house.setPropertyType("Multi Family");
-//		house.setState("MA");
-//		house.setStreet("Pearl St");
-//		
-//		HouseResource house2 = new HouseResource();
-//		house2.setCity("Medford");
-//		house2.setFirstName("Liu");
-//		house2.setLastName("John");
-//		house2.setZip("02155");
-//		house2.setPropertyType("Multi Family");
-//		house2.setState("MA");
-//		house2.setStreet("Pearl St");
-//		Iterable<HouseResource> res = new LinkedList<>();
-//		((LinkedList<HouseResource>) res).add(house);
-//		((LinkedList<HouseResource>) res).add(house2);
-//		
-////		Mockito.when(rep.findAll()).thenReturn(res);
-////		Mockito.when(houseResourceService.numOfRows()).thenReturn((long) 2);
-//		Map<String, Object> map = new LinkedHashMap<>();
-//		Iterable<HouseResource> temp = rep.findAll();
-//		map.put("itemCount", 0);
-//		map.put("items", temp);
-//		assertThat(houseResourceService.findAllHouses()).isEqualTo(new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK));
-//		
-//	}
 
 }

@@ -84,3 +84,12 @@ Since we need to read data from CSV file when the application starts, we need to
 ### Authentication
 There is no authentication implemented in the APP, so anyone with the URL can get, post and update the data stored in the database. We could secure the API using Spring Security and JWTs so that only authorized users could access the database. 
 
+## Test Cases
+
+* Implemented Unit test with JUNIT, file path: <code>src/test/java/</code>
+
+* Implemented Integration test with Postman, file path: <code>HouseAPI/TestCases.json</code>
+
+* Test Results:
+<img src="https://github.com/Jasper-Joe/HouseAPI/blob/master/Demo/Testing.png?raw=true" width="300" height="600" /> 
+
